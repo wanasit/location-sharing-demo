@@ -8,6 +8,11 @@ function handler (req, res) {
   res.end("This is a Socket IO backend for a real time location sharing service.\n");
 }
 
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
 io.sockets.on('connection', function (socket) {
   socket.on('location', function (data) {
     io.sockets.emit('location', data);
