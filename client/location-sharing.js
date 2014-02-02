@@ -18,7 +18,7 @@ function initLocationSharing(location_callback, error_callback){
     // ================================
     // Setup Socket IO 
     // ================================
-    var socket = io.connect('http://localhost:8082');
+    var socket = io.connect('/');
     socket.on('connect', function () {
         socket.on('location', function(location){
             if(location.id != userInfo.id) {
@@ -52,7 +52,7 @@ function initLocationSharing(location_callback, error_callback){
         clearTimeout(sendLocationTimeout);
         sendLocationTimeout = setTimeout(sendLocation, 1000*5);
     }
-    
+
     var geo_options = { enableHighAccuracy: true };
     navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
     navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
