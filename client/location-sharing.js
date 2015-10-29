@@ -55,7 +55,6 @@ function initLocationSharing(location_callback, error_callback){
 
     var geo_options = { enableHighAccuracy: true };
     navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
-    navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
 
     return userInfo;
 }
