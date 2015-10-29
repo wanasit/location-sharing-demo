@@ -4,31 +4,31 @@ function initLocationSharing(location_callback, error_callback){
     //For generating a random unique ID
     function guid() {
         function s4() { return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16).substring(1); 
-        };
-        
+            .toString(16).substring(1);
+        }
+
         return s4() + s4() + '-' + s4() + '-' + s4() + s4();
     }
 
     var userInfo = {
         id: guid(),
         name: 'Anonymous' + (navigator.platform? ' ('+navigator.platform+')':'')
-    }
+    };
 
     // ================================
-    // Setup Socket IO 
+    // Setup Socket IO
     // ================================
-    var socket = io.connect('/');
+    var socket = io();
     socket.on('connect', function () {
         socket.on('location', function(location){
             if(location.id != userInfo.id) {
                 location_callback(location);
             }
-        })
+        });
     });
 
     // ================================
-    // Setup Geolocation  
+    // Setup Geolocation
     // ================================
     if (!navigator.geolocation) {
         return userInfo;
@@ -41,7 +41,7 @@ function initLocationSharing(location_callback, error_callback){
         location_callback(userInfo);
         sendLocation();
     }
-    
+
     function geo_error() {
         error_callback();
     }
@@ -55,7 +55,6 @@ function initLocationSharing(location_callback, error_callback){
 
     var geo_options = { enableHighAccuracy: true };
     navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
-    navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
 
     return userInfo;
 }
